@@ -1,12 +1,12 @@
+<html>
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Expense & Budget Tracker</title>
 
+    <!-- CSS -->
     <link rel="stylesheet" href="/static/style.css">
 </head>
 
@@ -47,12 +47,14 @@
 
             <form id="transaction-form">
 
+                <!-- Transaction Type -->
                 <label for="type">Transaction Type</label>
                 <select id="type" name="type" required>
                     <option value="expense">Expense</option>
                     <option value="income">Income</option>
                 </select>
 
+                <!-- Description -->
                 <label for="description">Description</label>
                 <input
                     type="text"
@@ -62,6 +64,7 @@
                     required
                 >
 
+                <!-- Amount -->
                 <label for="amount">Amount (Rs.)</label>
                 <input
                     type="number"
@@ -73,15 +76,23 @@
                     required
                 >
 
+                <!-- Category Dropdown -->
                 <label for="category">Category</label>
-                <input
-                    type="text"
-                    id="category"
-                    name="category"
-                    placeholder="e.g. Food or Salary"
-                    required
-                >
+                <select id="category" name="category" required>
+                    <option value="">Select a category</option>
+                    <option value="Food">Food</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Health">Health</option>
+                    <option value="Education">Education</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Salary">Salary</option>
+                    <option value="Freelance">Freelance</option>
+                    <option value="Other">Other</option>
+                </select>
 
+                <!-- Date -->
                 <label for="date">Date</label>
                 <input
                     type="date"
@@ -90,12 +101,14 @@
                     required
                 >
 
+                <!-- Submit Button -->
                 <button type="submit" id="submit-button">
                     Add Transaction
                 </button>
 
             </form>
 
+            <!-- Success or Error Message -->
             <p id="message" role="status"></p>
 
         </section>
@@ -108,6 +121,7 @@
             <!-- Filters -->
             <div class="filters">
 
+                <!-- Type Filter -->
                 <div>
                     <label for="filter-type">Filter by Type</label>
                     <select id="filter-type">
@@ -117,13 +131,25 @@
                     </select>
                 </div>
 
+                <!-- Category Filter Dropdown -->
                 <div>
-                    <label for="filter-category">Filter by Category</label>
-                    <input
-                        type="text"
-                        id="filter-category"
-                        placeholder="Enter category"
-                    >
+                    <label for="filter-category">
+                        Filter by Category
+                    </label>
+
+                    <select id="filter-category">
+                        <option value="">All Categories</option>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Health">Health</option>
+                        <option value="Education">Education</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Freelance">Freelance</option>
+                        <option value="Other">Other</option>
+                    </select>
                 </div>
 
             </div>
@@ -160,9 +186,7 @@
     <!-- JavaScript -->
     <script src="/static/script.js"></script>
 
-    
-
-
-
 </body>
+
 </html>
+```
