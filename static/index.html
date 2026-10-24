@@ -1,12 +1,13 @@
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Expense & Budget Tracker</title>
+    <title>Expense &amp; Budget Tracker</title>
 
-    <!-- CSS -->
     <link rel="stylesheet" href="/static/style.css">
 </head>
 
@@ -14,7 +15,7 @@
 
     <!-- Website Header -->
     <header>
-        <h1>Expense & Budget Tracker</h1>
+        <h1>Expense &amp; Budget Tracker</h1>
         <p>Manage your income and expenses easily.</p>
     </header>
 
@@ -40,81 +41,119 @@
 
         </section>
 
-        <!-- Add Transaction Form -->
+        <!-- Add Transaction Button -->
         <section class="panel">
 
-            <h2>Add a Transaction</h2>
+            <button type="button" id="open-add-modal">
+                + Add Transaction
+            </button>
 
-            <form id="transaction-form">
-
-                <!-- Transaction Type -->
-                <label for="type">Transaction Type</label>
-                <select id="type" name="type" required>
-                    <option value="expense">Expense</option>
-                    <option value="income">Income</option>
-                </select>
-
-                <!-- Description -->
-                <label for="description">Description</label>
-                <input
-                    type="text"
-                    id="description"
-                    name="description"
-                    placeholder="e.g. Lunch or Salary"
-                    required
-                >
-
-                <!-- Amount -->
-                <label for="amount">Amount (Rs.)</label>
-                <input
-                    type="number"
-                    id="amount"
-                    name="amount"
-                    placeholder="Enter amount"
-                    min="0.01"
-                    step="0.01"
-                    required
-                >
-
-                <!-- Category Dropdown -->
-                <label for="category">Category</label>
-                <select id="category" name="category" required>
-                    <option value="">Select a category</option>
-                    <option value="Food">Food</option>
-                    <option value="Transport">Transport</option>
-                    <option value="Shopping">Shopping</option>
-                    <option value="Bills">Bills</option>
-                    <option value="Health">Health</option>
-                    <option value="Education">Education</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Salary">Salary</option>
-                    <option value="Freelance">Freelance</option>
-                    <option value="Other">Other</option>
-                </select>
-
-                <!-- Date -->
-                <label for="date">Date</label>
-                <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    required
-                >
-
-                <!-- Submit Button -->
-                <button type="submit" id="submit-button">
-                    Add Transaction
-                </button>
-
-            </form>
-
-            <!-- Success or Error Message -->
-            <p id="message" role="status"></p>
+            <p id="message" role="status" aria-live="polite"></p>
 
         </section>
 
-        <!-- Transaction List -->
-        <section class="panel">
+        <!-- Add / Edit Transaction Modal -->
+        <div id="transaction-modal" class="modal" style="display: none;">
+
+            <div class="modal-content"
+                 role="dialog"
+                 aria-modal="true"
+                 aria-labelledby="modal-title">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+
+                    <h2 id="modal-title">Add a Transaction</h2>
+
+                    <button
+                        type="button"
+                        id="close-modal"
+                        class="close-button"
+                        aria-label="Close modal">
+                        &times;
+                    </button>
+
+                </div>
+
+                <!-- Transaction Form -->
+                <form id="transaction-form">
+
+                    <label for="type">Transaction Type</label>
+                    <select id="type" name="type" required>
+                        <option value="expense">Expense</option>
+                        <option value="income">Income</option>
+                    </select>
+
+                    <label for="description">Description</label>
+                    <input
+                        type="text"
+                        id="description"
+                        name="description"
+                        placeholder="e.g. Lunch or Salary"
+                        required
+                    >
+
+                    <label for="amount">Amount (Rs.)</label>
+                    <input
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        placeholder="Enter amount"
+                        min="0.01"
+                        step="0.01"
+                        required
+                    >
+
+                    <!-- Category Dropdown -->
+                    <label for="category">Category</label>
+                    <select id="category" name="category" required>
+                        <option value="">Select a category</option>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Health">Health</option>
+                        <option value="Education">Education</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Freelance">Freelance</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label for="date">Date</label>
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        required
+                    >
+
+                    <!-- Modal Buttons -->
+                    <div class="modal-actions">
+
+                        <button type="submit" id="submit-button">
+                            Add Transaction
+                        </button>
+
+                        <button
+                            type="button"
+                            id="cancel-modal"
+                            class="cancel-button">
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- Transactions Section -->
+        <section class="panel"
+                 id="transactions-panel"
+                 style="display: none;">
 
             <h2>Transactions</h2>
 
@@ -131,12 +170,9 @@
                     </select>
                 </div>
 
-                <!-- Category Filter Dropdown -->
+                <!-- Category Filter -->
                 <div>
-                    <label for="filter-category">
-                        Filter by Category
-                    </label>
-
+                    <label for="filter-category">Filter by Category</label>
                     <select id="filter-category">
                         <option value="">All Categories</option>
                         <option value="Food">Food</option>
@@ -152,33 +188,31 @@
                     </select>
                 </div>
 
-            
-            
-        <!-- Filter by Date -->
-                     <div>
-        <label for="filter-date">Filter by Date</label>
-        <select id="filter-date">
-            <option value="all">All Dates</option>
-            <option value="today">Today</option>
-            <option value="yesterday">Yesterday</option>
-            <option value="last7days">Last 7 Days</option>
-            <option value="lastmonth">Last Month</option>
-            <option value="custom">Custom Date Range</option>
-        </select>
-    </div>
+                <!-- Date Filter -->
+                <div>
+                    <label for="filter-date">Filter by Date</label>
+                    <select id="filter-date">
+                        <option value="all">All Dates</option>
+                        <option value="today">Today</option>
+                        <option value="yesterday">Yesterday</option>
+                        <option value="last7days">Last 7 Days</option>
+                        <option value="lastmonth">Last Month</option>
+                        <option value="custom">Custom Date Range</option>
+                    </select>
+                </div>
 
-    <!-- Custom Date Range -->
-    <div id="custom-date-range" style="display: none;">
+                <!-- Custom Date Range -->
+                <div id="custom-date-range" style="display: none;">
 
-        <label for="start-date">Start Date</label>
-        <input type="date" id="start-date">
+                    <label for="start-date">Start Date</label>
+                    <input type="date" id="start-date">
 
-        <label for="end-date">End Date</label>
-        <input type="date" id="end-date">
+                    <label for="end-date">End Date</label>
+                    <input type="date" id="end-date">
 
-    </div>
-    </div>
-            
+                </div>
+
+            </div>
 
             <!-- Transactions Table -->
             <div class="table-wrapper">
