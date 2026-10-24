@@ -152,7 +152,33 @@
                     </select>
                 </div>
 
-            </div>
+            
+            
+        <!-- Filter by Date -->
+                     <div>
+        <label for="filter-date">Filter by Date</label>
+        <select id="filter-date">
+            <option value="all">All Dates</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="last7days">Last 7 Days</option>
+            <option value="lastmonth">Last Month</option>
+            <option value="custom">Custom Date Range</option>
+        </select>
+    </div>
+
+    <!-- Custom Date Range -->
+    <div id="custom-date-range" style="display: none;">
+
+        <label for="start-date">Start Date</label>
+        <input type="date" id="start-date">
+
+        <label for="end-date">End Date</label>
+        <input type="date" id="end-date">
+
+    </div>
+    </div>
+            
 
             <!-- Transactions Table -->
             <div class="table-wrapper">
