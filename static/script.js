@@ -49,7 +49,7 @@ function setTransactionsVisibility(visible) {
     );
 }
 
-// Toggle the Transactions section using the button.
+// Toggle the Transactions section.
 toggleTransactionsButton.addEventListener("click", function () {
     const isVisible =
         window.getComputedStyle(transactionsPanel).display !== "none";
@@ -171,6 +171,7 @@ async function loadTransactions() {
         }
 
         const query = params.toString();
+
         const url = query
             ? `/api/transactions?${query}`
             : "/api/transactions";
@@ -212,7 +213,10 @@ function getDateRange() {
     const selected = filterDate.value;
 
     if (selected === "today") {
-        return { start: todayString, end: todayString };
+        return {
+            start: todayString,
+            end: todayString
+        };
     }
 
     if (selected === "yesterday") {
@@ -221,7 +225,10 @@ function getDateRange() {
 
         const date = getLocalDateString(yesterday);
 
-        return { start: date, end: date };
+        return {
+            start: date,
+            end: date
+        };
     }
 
     if (selected === "last7days") {
@@ -296,6 +303,7 @@ function applyDateFilter() {
             return true;
         }
 
+        // Wait until both custom dates have been selected.
         if (!range.start || !range.end) {
             return true;
         }
@@ -344,6 +352,7 @@ function displayTransactions(transactions) {
 
         const actionsCell = document.createElement("td");
 
+        // Edit button
         const editButton = document.createElement("button");
         editButton.type = "button";
         editButton.textContent = "Edit";
@@ -352,6 +361,7 @@ function displayTransactions(transactions) {
             editTransaction(transaction.id);
         });
 
+        // Delete button
         const deleteButton = document.createElement("button");
         deleteButton.type = "button";
         deleteButton.textContent = "Delete";
@@ -386,7 +396,10 @@ form.addEventListener("submit", async function (event) {
         !Number.isFinite(transaction.amount) ||
         transaction.amount <= 0
     ) {
-        showMessage("Please complete all fields with valid information.", true);
+        showMessage(
+            "Please complete all fields with valid information.",
+            true
+        );
         return;
     }
 
@@ -418,6 +431,7 @@ form.addEventListener("submit", async function (event) {
             );
         }
 
+        // Reset the form after saving successfully.
         editingId = null;
         form.reset();
         dateInput.value = getLocalDateString();
@@ -425,17 +439,17 @@ form.addEventListener("submit", async function (event) {
         submitButton.textContent = "Add Transaction";
         modalTitle.textContent = "Add a Transaction";
 
+        // Close the popup without opening the Transactions section.
         closeTransactionModal();
 
-        // Automatically show Transactions after saving.
-        setTransactionsVisibility(true);
-
+        // Show a success message.
         showMessage(
             isEditing
                 ? "Transaction updated successfully!"
                 : "Transaction added successfully!"
         );
 
+        // Refresh the data without changing section visibility.
         await loadTransactions();
         await loadSummary();
 
@@ -475,7 +489,9 @@ async function editTransaction(id) {
         modalTitle.textContent = "Edit Transaction";
         submitButton.textContent = "Update Transaction";
 
+        // Show the Transactions section when editing.
         setTransactionsVisibility(true);
+
         openTransactionModal();
 
     } catch (error) {
