@@ -259,3 +259,27 @@ td button {
 body.modal-open {
     overflow: hidden;
 }
+
+.transaction-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.transaction-actions button {
+    padding: 11px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.toggle-button {
+    background-color: #0f766e;
+    color: white;
+}
+
+.toggle-button:hover {
+    background-color: #115e59;
+}

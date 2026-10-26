@@ -18,6 +18,8 @@ const startDateInput = document.getElementById("start-date");
 const endDateInput = document.getElementById("end-date");
 
 const transactionsPanel = document.getElementById("transactions-panel");
+const toggleTransactionsButton = document.getElementById("toggle-transactions");
+const transactionsContent = document.getElementById("transactions-content");
 
 // Modal elements
 const transactionModal = document.getElementById("transaction-modal");
@@ -28,6 +30,32 @@ const modalTitle = document.getElementById("modal-title");
 
 let editingId = null;
 let allTransactions = [];
+
+// Show or hide the Transactions section.
+function setTransactionsVisibility(visible) {
+    transactionsPanel.style.display = visible ? "block" : "none";
+
+    if (transactionsContent) {
+        transactionsContent.style.display = "block";
+    }
+
+    toggleTransactionsButton.textContent = visible
+        ? "Hide Transactions"
+        : "Show Transactions";
+
+    toggleTransactionsButton.setAttribute(
+        "aria-expanded",
+        String(visible)
+    );
+}
+
+// Toggle the Transactions section using the button.
+toggleTransactionsButton.addEventListener("click", function () {
+    const isVisible =
+        window.getComputedStyle(transactionsPanel).display !== "none";
+
+    setTransactionsVisibility(!isVisible);
+});
 
 // Get today's date in local time.
 function getLocalDateString(date = new Date()) {
@@ -248,8 +276,16 @@ function applyDateFilter() {
         range.end &&
         range.start > range.end
     ) {
-        transactionList.innerHTML =
-            '<tr><td colspan="6">Start date must not be after end date.</td></tr>';
+        transactionList.replaceChildren();
+
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+
+        cell.colSpan = 6;
+        cell.textContent = "Start date must not be after end date.";
+
+        row.appendChild(cell);
+        transactionList.appendChild(row);
         return;
     }
 
@@ -260,7 +296,6 @@ function applyDateFilter() {
             return true;
         }
 
-        // Wait until both custom dates have been selected.
         if (!range.start || !range.end) {
             return true;
         }
@@ -312,6 +347,7 @@ function displayTransactions(transactions) {
         const editButton = document.createElement("button");
         editButton.type = "button";
         editButton.textContent = "Edit";
+
         editButton.addEventListener("click", function () {
             editTransaction(transaction.id);
         });
@@ -320,6 +356,7 @@ function displayTransactions(transactions) {
         deleteButton.type = "button";
         deleteButton.textContent = "Delete";
         deleteButton.style.backgroundColor = "#dc2626";
+
         deleteButton.addEventListener("click", function () {
             deleteTransaction(transaction.id);
         });
@@ -381,16 +418,17 @@ form.addEventListener("submit", async function (event) {
             );
         }
 
-        // Reset edit state after a successful save.
         editingId = null;
         form.reset();
         dateInput.value = getLocalDateString();
 
         submitButton.textContent = "Add Transaction";
+        modalTitle.textContent = "Add a Transaction";
+
         closeTransactionModal();
 
-        // Show the table after saving.
-        transactionsPanel.style.display = "block";
+        // Automatically show Transactions after saving.
+        setTransactionsVisibility(true);
 
         showMessage(
             isEditing
@@ -437,7 +475,7 @@ async function editTransaction(id) {
         modalTitle.textContent = "Edit Transaction";
         submitButton.textContent = "Update Transaction";
 
-        transactionsPanel.style.display = "block";
+        setTransactionsVisibility(true);
         openTransactionModal();
 
     } catch (error) {

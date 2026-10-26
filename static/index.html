@@ -5,9 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Expense &amp; Budget Tracker</title>
-
     <link rel="stylesheet" href="/static/style.css">
 </head>
 
@@ -23,7 +21,6 @@
 
         <!-- Summary Cards -->
         <section class="summary">
-
             <div class="card">
                 <h3>Total Income</h3>
                 <p id="total-income">Rs. 0.00</p>
@@ -38,18 +35,27 @@
                 <h3>Balance</h3>
                 <p id="balance">Rs. 0.00</p>
             </div>
-
         </section>
 
-        <!-- Add Transaction Button -->
+        <!-- Transaction Buttons -->
         <section class="panel">
+            <div class="transaction-actions">
 
-            <button type="button" id="open-add-modal">
-                + Add Transaction
-            </button>
+                <button type="button" id="open-add-modal">
+                    + Add Transaction
+                </button>
+
+                <button type="button"
+                        id="toggle-transactions"
+                        class="toggle-button"
+                        aria-expanded="false"
+                        aria-controls="transactions-content">
+                    Show Transactions
+                </button>
+
+            </div>
 
             <p id="message" role="status" aria-live="polite"></p>
-
         </section>
 
         <!-- Add / Edit Transaction Modal -->
@@ -60,19 +66,15 @@
                  aria-modal="true"
                  aria-labelledby="modal-title">
 
-                <!-- Modal Header -->
                 <div class="modal-header">
-
                     <h2 id="modal-title">Add a Transaction</h2>
 
-                    <button
-                        type="button"
-                        id="close-modal"
-                        class="close-button"
-                        aria-label="Close modal">
+                    <button type="button"
+                            id="close-modal"
+                            class="close-button"
+                            aria-label="Close modal">
                         &times;
                     </button>
-
                 </div>
 
                 <!-- Transaction Form -->
@@ -85,26 +87,21 @@
                     </select>
 
                     <label for="description">Description</label>
-                    <input
-                        type="text"
-                        id="description"
-                        name="description"
-                        placeholder="e.g. Lunch or Salary"
-                        required
-                    >
+                    <input type="text"
+                           id="description"
+                           name="description"
+                           placeholder="e.g. Lunch or Salary"
+                           required>
 
                     <label for="amount">Amount (Rs.)</label>
-                    <input
-                        type="number"
-                        id="amount"
-                        name="amount"
-                        placeholder="Enter amount"
-                        min="0.01"
-                        step="0.01"
-                        required
-                    >
+                    <input type="number"
+                           id="amount"
+                           name="amount"
+                           placeholder="Enter amount"
+                           min="0.01"
+                           step="0.01"
+                           required>
 
-                    <!-- Category Dropdown -->
                     <label for="category">Category</label>
                     <select id="category" name="category" required>
                         <option value="">Select a category</option>
@@ -121,33 +118,25 @@
                     </select>
 
                     <label for="date">Date</label>
-                    <input
-                        type="date"
-                        id="date"
-                        name="date"
-                        required
-                    >
+                    <input type="date"
+                           id="date"
+                           name="date"
+                           required>
 
-                    <!-- Modal Buttons -->
                     <div class="modal-actions">
-
                         <button type="submit" id="submit-button">
                             Add Transaction
                         </button>
 
-                        <button
-                            type="button"
-                            id="cancel-modal"
-                            class="cancel-button">
+                        <button type="button"
+                                id="cancel-modal"
+                                class="cancel-button">
                             Cancel
                         </button>
-
                     </div>
 
                 </form>
-
             </div>
-
         </div>
 
         <!-- Transactions Section -->
@@ -157,95 +146,88 @@
 
             <h2>Transactions</h2>
 
-            <!-- Filters -->
-            <div class="filters">
+            <!-- This content will be shown or hidden -->
+            <div id="transactions-content" style="display: block;">
 
-                <!-- Type Filter -->
-                <div>
-                    <label for="filter-type">Filter by Type</label>
-                    <select id="filter-type">
-                        <option value="">All Transactions</option>
-                        <option value="income">Income</option>
-                        <option value="expense">Expenses</option>
-                    </select>
+                <!-- Filters -->
+                <div class="filters">
+
+                    <div>
+                        <label for="filter-type">Filter by Type</label>
+                        <select id="filter-type">
+                            <option value="">All Transactions</option>
+                            <option value="income">Income</option>
+                            <option value="expense">Expenses</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="filter-category">Filter by Category</label>
+                        <select id="filter-category">
+                            <option value="">All Categories</option>
+                            <option value="Food">Food</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Bills">Bills</option>
+                            <option value="Health">Health</option>
+                            <option value="Education">Education</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Salary">Salary</option>
+                            <option value="Freelance">Freelance</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="filter-date">Filter by Date</label>
+                        <select id="filter-date">
+                            <option value="all">All Dates</option>
+                            <option value="today">Today</option>
+                            <option value="yesterday">Yesterday</option>
+                            <option value="last7days">Last 7 Days</option>
+                            <option value="lastmonth">Last Month</option>
+                            <option value="custom">Custom Date Range</option>
+                        </select>
+                    </div>
+
+                    <div id="custom-date-range" style="display: none;">
+                        <label for="start-date">Start Date</label>
+                        <input type="date" id="start-date">
+
+                        <label for="end-date">End Date</label>
+                        <input type="date" id="end-date">
+                    </div>
+
                 </div>
 
-                <!-- Category Filter -->
-                <div>
-                    <label for="filter-category">Filter by Category</label>
-                    <select id="filter-category">
-                        <option value="">All Categories</option>
-                        <option value="Food">Food</option>
-                        <option value="Transport">Transport</option>
-                        <option value="Shopping">Shopping</option>
-                        <option value="Bills">Bills</option>
-                        <option value="Health">Health</option>
-                        <option value="Education">Education</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Salary">Salary</option>
-                        <option value="Freelance">Freelance</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
+                <!-- Transactions Table -->
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
 
-                <!-- Date Filter -->
-                <div>
-                    <label for="filter-date">Filter by Date</label>
-                    <select id="filter-date">
-                        <option value="all">All Dates</option>
-                        <option value="today">Today</option>
-                        <option value="yesterday">Yesterday</option>
-                        <option value="last7days">Last 7 Days</option>
-                        <option value="lastmonth">Last Month</option>
-                        <option value="custom">Custom Date Range</option>
-                    </select>
-                </div>
-
-                <!-- Custom Date Range -->
-                <div id="custom-date-range" style="display: none;">
-
-                    <label for="start-date">Start Date</label>
-                    <input type="date" id="start-date">
-
-                    <label for="end-date">End Date</label>
-                    <input type="date" id="end-date">
-
+                        <tbody id="transaction-list">
+                            <tr>
+                                <td colspan="6">Loading transactions...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
             </div>
-
-            <!-- Transactions Table -->
-            <div class="table-wrapper">
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Category</th>
-                            <th>Amount</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="transaction-list">
-                        <tr>
-                            <td colspan="6">Loading transactions...</td>
-                        </tr>
-                    </tbody>
-
-                </table>
-
-            </div>
-
         </section>
 
     </main>
 
-    <!-- JavaScript -->
     <script src="/static/script.js"></script>
 
 </body>
-
 </html>
